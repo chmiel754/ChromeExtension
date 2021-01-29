@@ -1,0 +1,140 @@
+<p-card>
+  <div class="ui-g buttons-panel">
+    <button pButton pRipple label="Save" icon="pi pi-check" (click)="onSubmit()"></button>
+    <button pButton pRipple label="Init stored" icon="pi pi-times" (click)="initStoredValue()"></button>
+  </div>
+  <header>
+    <h3>Setting</h3>
+  </header>
+
+  <form [formGroup]="manSettings">
+    <p-panel class="own-values">
+      <div class="form-group">
+
+        <p-inputNumber label="Discount" formControlName="discount" placeholder="Discount" [min]="0" [max]="100"></p-inputNumber>
+
+        <p-inputNumber label="Request delay" formControlName="requestDelay" placeholder="Request delay" [min]="0"
+                       [max]="10000"></p-inputNumber>
+      </div>
+
+      <div formGroupName="marks">
+        <div class="form-group">
+          <input type="text" pInputText class="p-inputtext" formControlName="other" placeholder="Other top brand"/>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel>
+      <div formGroupName="marks" class="marks">
+        <div class="form-group">
+          <p-selectButton [options]="itemsController.topMarksList"
+                          formControlName="top"
+                          multiple="multiple">
+          </p-selectButton>
+        </div>
+      </div>
+    </p-panel>
+
+    <div formGroupName="prices" class="prices p-grid center">
+      <div class="form-group">
+        <div class="p-col">
+
+          <h5>Tops: {{getCategoryValue('prices', 'tops')[0] + ' - ' + getCategoryValue('prices', 'tops')[1]}}</h5>
+          <p-slider formControlName="tops" [range]="true" [min]="0" [max]="300"></p-slider>
+
+          <h5>Shoes: {{getCategoryValue('prices', 'shoes')[0] + ' - ' + getCategoryValue('prices', 'shoes')[1]}}</h5>
+          <p-slider formControlName="shoes" [range]="true" [min]="0" [max]="300"></p-slider>
+        </div>
+
+        <div class="p-col">
+          <h5>Pants: {{getCategoryValue('prices', 'pants')[0] + ' - ' + getCategoryValue('prices', 'pants')[1]}}</h5>
+          <p-slider formControlName="pants" [range]="true" [min]="0" [max]="300"></p-slider>
+          <h5>Underwear price
+            range: {{getCategoryValue('prices', 'underwear')[0] + ' - ' + getCategoryValue('prices', 'underwear')[1]}}</h5>
+          <p-slider formControlName="underwear" [range]="true" [min]="0" [max]="300"></p-slider>
+        </div>
+        <div class="p-col">
+          <h5>
+            Accessories: {{getCategoryValue('prices', 'accessories')[0] + ' - ' + getCategoryValue('prices', 'accessories')[1]}}</h5>
+
+          <p-slider formControlName="accessories" [range]="true" [min]="0" [max]="300"></p-slider>
+
+          <h5>Others: {{getCategoryValue('prices', 'others')[0] + ' - ' + getCategoryValue('prices', 'others')[1]}}</h5>
+          <p-slider formControlName="others" [range]="true" [min]="0" [max]="300"></p-slider>
+        </div>
+      </div>
+    </div>
+
+    <p-panel header="Man categories">
+      <div formGroupName="categories" class="categories">
+        <div class="form-group">
+          <p-multiSelect [options]="itemsController.manCategories.clothes"
+                         formControlName="clothes"
+                         [placeholder]="'clothes'"
+                         [optionLabel]="'name'"
+                         [optionValue]="'categoryId'">
+          </p-multiSelect>
+
+
+          <p-multiSelect [options]="itemsController.manCategories.shoes"
+                         formControlName="shoes"
+                         [placeholder]="'shoes'"
+                         [optionLabel]="'name'"
+                         [optionValue]="'categoryId'">
+          </p-multiSelect>
+
+          <p-multiSelect [options]="itemsController.manCategories.accessories"
+                         formControlName="accessories"
+                         [placeholder]="'accessories'"
+                         [optionLabel]="'name'"
+                         [optionValue]="'categoryId'"></p-multiSelect>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Sizes">
+      <div formGroupName="sizes" class="sizes">
+        <div class="form-group">
+          <p-listbox [options]="itemsController.shoes"
+                     [metaKeySelection]="false"
+                     [checkbox]="true"
+                     [multiple]="true"
+                     formControlName="shoes">
+            <ng-template pTemplate="header">
+              Shoes
+            </ng-template>
+          </p-listbox>
+
+          <p-listbox [options]="itemsController.tops"
+                     [metaKeySelection]="false"
+                     [checkbox]="true"
+                     [multiple]="true"
+                     formControlName="tops">
+            <ng-template pTemplate="header">
+              Tops
+            </ng-template>
+          </p-listbox>
+          <p-listbox [options]="itemsController.pants"
+                     [metaKeySelection]="false"
+                     [checkbox]="true"
+                     [multiple]="true"
+                     formControlName="pants">
+            <ng-template pTemplate="header">
+              Pants
+            </ng-template>
+          </p-listbox>
+          <p-listbox [options]="itemsController.underwear"
+                     [metaKeySelection]="false"
+                     [checkbox]="true"
+                     [multiple]="true"
+                     formControlName="underwear">
+            <ng-template pTemplate="header">
+              Underwear
+            </ng-template>
+          </p-listbox>
+        </div>
+      </div>
+    </p-panel>
+  </form>
+</p-card>
+

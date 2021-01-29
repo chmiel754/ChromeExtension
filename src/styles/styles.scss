@@ -1,0 +1,162 @@
+@import "./src/styles/variables/variables.styles";
+
+.p-card {
+  .p-card-body {
+    background-color: rgba(255, 255, 255, .8);
+    padding: 2rem 1rem;
+    border-radius: .25rem;
+    box-shadow: 0 1rem 2rem -.5rem rgba(126, 132, 151, 0.25);
+    margin: 1rem 0 0 0;
+
+
+    .p-panel .own-values {
+      .form-group {
+        display: inline-grid;
+
+      }
+    }
+
+
+    .marks {
+      display: flex;
+
+      .p-selectbutton {
+        width: 40rem;
+      }
+    }
+
+
+    .prices {
+      .form-group {
+        display: flex;
+
+        .p-slider {
+          width: 12rem;
+          margin-bottom: 20px;
+          margin-right: 25px;
+        }
+      }
+    }
+
+    .p-panel {
+      padding: 2rem 1rem 0;
+      border-top: 1px solid #CBCBCB;
+
+      .p-panel-header {
+        margin: 0 0 0 0;
+        padding: 0;
+        color: var(--dark-color);
+        opacity: 1;
+        display: block;
+      }
+
+      .p-panel-footer {
+      }
+
+
+      .p-listbox {
+        width: 10rem;
+        margin-right: 5px;
+
+        .p-listbox-list {
+          max-height: 250px
+        }
+
+        .p-listbox-header:nth-child(2) {
+          display: none;
+        }
+
+      }
+
+
+      .categories {
+        margin-bottom: 10px;
+
+        .form-group {
+          .p-multiselect {
+            margin-right: 10px;
+          }
+        }
+      }
+
+      .form-group {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+      }
+    }
+  }
+
+  .buttons-panel {
+    float: right;
+
+    .p-button {
+      margin-right: 10px;
+    }
+  }
+
+
+  .inputs-panel {
+    display: inline-grid;
+
+    .p-inputtext-sm {
+      margin-bottom: 10px;
+    }
+  }
+
+}
+
+.p-tabview .p-tabview-nav {
+  width: 45rem;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  padding: .5rem;
+  width: 100%;
+
+  img {
+    width: 75px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    margin-right: 4rem;
+  }
+
+  .product-list-detail {
+    margin-left: 1rem;
+    flex: 1 1 0;
+  }
+
+  .product-list-action {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .product-category-icon {
+    vertical-align: middle;
+    margin-right: .5rem;
+  }
+
+  .product-category {
+    vertical-align: middle;
+    line-height: 1;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .product-item {
+    flex-wrap: wrap;
+
+    .image-container {
+      width: 100%;
+      text-align: center;
+    }
+
+    img {
+      margin: 0 10px 1rem 0;
+      width: 100px;
+    }
+  }
+}
+

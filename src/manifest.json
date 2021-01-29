@@ -1,0 +1,25 @@
+{
+  "name": "Zalando shopping V2",
+  "version": "1.0",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_popup": "index.html",
+    "settings_popup": "settings.html"
+  },
+  "background": {
+    "scripts": ["js/bg.js"]
+  },
+  "devtools_page": "devtools.html",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "webRequest",
+    "\u003Call_urls>",
+    "https://www.zalando-lounge.pl/event",
+    "declarativeContent",
+    "notifications",
+    "background",
+    "contextMenus"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

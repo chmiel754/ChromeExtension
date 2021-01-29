@@ -1,0 +1,68 @@
+:root {
+  --dark-color: #000066;
+  --main-color: #003399;
+  --secondary-color: #009ee0;
+  --secondary-dark: #0085BC;
+
+  --dark-color-70: rgba(0, 0, 102, 0.7);
+  --dark-color-25: rgba(0, 0, 102, 0.25);
+  --dark-color-5: rgba(0, 0, 102, 0.05);
+
+  --focus-color: #444444;
+  --subfocus-color: #747474;
+  --nofocus-color: #CBCBCB;
+  --bg-color: #F4F4F4;
+  --mode-color: white;
+
+  --confirm: #0AB57C;
+  --danger: #f44336;
+  --warning: #efaa0e;
+  --info: #4294d8;
+  --changed: #9C53B6;
+
+  --acrylic-80: rgba(255,255,255,.8);
+  --acrylic-60: rgba(255,255,255,.6);
+  --acrylic-40: rgba(255,255,255,.4);
+  --acrylic-20: rgba(255,255,255,.2);
+
+  --main-color-row: rgba(0, 51, 153, 0.025);
+  --main-color-row-hover: rgba(0, 51, 153, 0.1);
+
+
+
+  --shadow-main: var(--shadow-value) rgba(0, 51, 153, 0.5);
+  --shadow-warning: var(--shadow-value) rgba(241, 173, 14, 0.5);
+  --shadow-danger: var(--shadow-value) rgba(244, 67, 54, 0.5);
+  --shadow-confirm: var(--shadow-value) rgba(3, 174, 43, 0.5);
+
+  --h1-font: 400 3rem/1.5 Frutiger;
+  --h2-font: 400 2.1875rem/1.5 Frutiger;
+  --h3-font: 400 1.75rem/1.5 Frutiger;
+  --h4-font: 400 1.3125rem/1.5 Frutiger;
+  --h5-font: 400 .875rem/1.5 Frutiger;
+  --h6-font: 400 .75rem/1.5 Frutiger;
+  --p-font: 400 1rem/1.5 Frutiger;
+
+  --shadow-container: 0 1rem 2rem -.5rem rgba(126, 132, 151, 0.25);
+  --shadow-button: 0 .5rem 2rem -1rem currentColor;
+
+  --round-corners: .25rem;
+  --button-corners: 3px;
+
+  --blur: 16px;
+  --blur-high: 64px;
+  --dropdown-bg: white;
+
+  --field-width: 18rem;
+  --field-max-width: calc(100vw - var(--left-menu-width) - var(--widget-panel-collapsed) - 18rem);
+
+  --left-menu-width: 25rem;
+  --widget-panel-width: 46rem;
+  --widget-panel-collapsed: 10rem;
+  --app-content-width: calc(100vw - var(--left-menu-width) - var(--widget-panel-collapsed));
+
+  --exit-transition: 150ms cubic-bezier(0.7 , 0 , 1 , 0.5);
+  --enter-transition: 300ms cubic-bezier(0.1 , 0.9 , 0.2 , 1);
+  --move-transition: 500ms cubic-bezier(0.8 , 0 , 0.2 , 1);
+}
+
