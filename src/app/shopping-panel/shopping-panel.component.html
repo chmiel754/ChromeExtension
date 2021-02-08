@@ -2,12 +2,11 @@
   <div class="p-grid">
     <div class="inputs-panel p-col-3">
       <input type="text" [(ngModel)]="campaignId" class="p-inputtext-sm" placeholder="Campaing id" pInputText/>
-      <input type="text" [(ngModel)]="itemsAmount" class="p-inputtext-sm" placeholder="Items to buy" pInputText/>
+      <input type="text" [(ngModel)]="itemsAmount" class="p-inputtext-sm" placeholder="Items" pInputText/>
     </div>
     <div class="buttons-panel p-col-3">
-      <button pButton pRipple label="Save" icon="pi pi-check" (click)="save()"></button>
-      <button pButton pRipple label="Start buying" (click)="buyItems()"></button>
-      <button pButton pRipple label="Show top items" (click)="null"></button>
+      <button pButton pRipple label="Start" (click)="buyItems()"></button>
+      <button pButton pRipple label="Zapisz" icon="pi pi-check" (click)="save()"></button>
     </div>
   </div>
   <p-toast></p-toast>

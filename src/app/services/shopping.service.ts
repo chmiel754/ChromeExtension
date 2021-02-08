@@ -79,7 +79,7 @@ export class ShoppingService {
 
 }
 
-class ModelParser {
+export class ModelParser {
   static parseToItemList(articlesList: ItemRequest[]): Item[] {
     const loggerService: ChromeExtensionsService = new ChromeExtensionsService();
     loggerService.log(`Items ${articlesList.length}`);

@@ -2,7 +2,10 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
-import { ShoppingService } from '../services/shopping.service';
+import {
+  ModelParser,
+  ShoppingService,
+} from '../services/shopping.service';
 import { ItemRequest } from '../models/itemRequest.model';
 import { MessageService } from 'primeng/api';
 import { Simple } from '../models/simple.model';
@@ -10,6 +13,7 @@ import { StockStatus } from '../enum/stock-status.enum';
 import { OrderList } from 'primeng/orderlist';
 import { ChromeExtensionsService } from '../services/chrome-extensions.service';
 import { ZalandoService } from '../services/zalando.service';
+import { Item } from '../models/item.model';
 
 @Component({
   selector: 'app-top-items-panel',
@@ -27,7 +31,6 @@ export class TopItemsPanelComponent {
 
   constructor(private shoppingService: ShoppingService,
               public zalandoService: ZalandoService,
-              private clipboard: Clipboard,
               public chromeExtensionsService: ChromeExtensionsService,
               private messageService: MessageService) {
   }
@@ -59,7 +62,10 @@ export class TopItemsPanelComponent {
       .then(() => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: `Successfully bought` });
       })
-      .catch(err => this.messageService.add({ severity: 'error', summary: 'Failed', detail: `Failed - ${err.error.message}` }));
+      .catch(err => {
+        this.copyText(JSON.stringify(ModelParser.parseItemToOrderRequest(new Item({ article: item, simple }))));
+        this.messageService.add({ severity: 'error', summary: 'Failed', detail: `Failed - ${err.error.message}` });
+      });
   }
 
   sortByDiscount() {
@@ -76,7 +82,17 @@ export class TopItemsPanelComponent {
     this.chromeExtensionsService.log(`Url = https://www.zalando-lounge.pl${item.urlPath['45']}`);
   }
 
-  copy(){
+  copyText(val: string) {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
   }
-
 }
