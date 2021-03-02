@@ -11,7 +11,7 @@ export class ChromeExtensionsService {
   }
 
   log(value: string, extraItem: any = '') {
-    chrome.extension.getBackgroundPage().console.log(value, extraItem);
-    // console.log(value, extraItem);
+    // chrome.extension.getBackgroundPage().console.log(value, extraItem);
+    console.log(value, extraItem);
   }
 }

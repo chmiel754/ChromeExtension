@@ -7,8 +7,118 @@
     <div class="buttons-panel p-col-3">
       <button pButton pRipple label="Start" (click)="buyItems()"></button>
       <button pButton pRipple label="Zapisz" icon="pi pi-check" (click)="save()"></button>
+      <button pButton pRipple label="Events" icon="pi pi-check" (click)="initEvents()"></button>
     </div>
   </div>
+
+  <p-panel
+    header="Trwające kampanie"
+    [(collapsed)]="openCampaignsCollapse"
+    [toggleable]="true">
+    <p-dataView [value]="openCampaigns">
+
+      <ng-template pTemplate="header">
+        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+      </ng-template>
+
+      <ng-template let-event pTemplate="listItem">
+        <div class="p-col-12">
+          <div class="product-list-item">
+            <div class="product-list-detail">
+
+              <div class="product-name">{{event.name}}</div>
+              <img [src]="getCampaignImg(event)" style="display:inline-block;margin:2px 0 2px 2px" width="90" alt="">
+            </div>
+            <div class="product-list-action">
+                 <span class="product-price">
+                    {{getDecodedBrands(event)}}
+                 </span>
+              <button pButton pRipple label="Ulubione" (click)="initEvents()"></button>
+              <div ></div>
+              <button pButton pRipple
+                      [ngClass]="getClass(event)"
+                      [label]="campaignId.includes(event.campaignId) ? 'Usun' : 'Dodaj' "
+                      (click)="addCampaignId(event.campaignId)"></button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template let-event pTemplate="gridItem">
+        <div class="p-col-12 p-md-4">
+          <div class="product-grid-item card">
+            <div class="product-grid-item-top">
+              <div>
+                <i class="pi pi-tag product-category-icon"></i>
+                <span class="product-category">{{event.campaignId}}</span>
+              </div>
+<!--                          <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>-->
+            </div>
+            <div class="product-grid-item-content">
+              {{'"product-grid-item-content"'}}
+            </div>
+            <div class="product-grid-item-bottom">
+              {{'product-grid-item-bottom'}}
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </p-panel>
+
+  <p-panel
+    header="Nadchodzące kampanie"
+    [toggleable]="true">
+    <p-dataView [value]="upcomingCampaigns">
+
+      <ng-template pTemplate="header">
+        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+      </ng-template>
+
+      <ng-template let-event pTemplate="listItem">
+        <div class="p-col-12">
+          <div class="product-list-item">
+            <div class="product-list-detail">
+
+              <div class="product-name">{{event.name}}</div>
+              <img [src]="getCampaignImg(event)" style="display:inline-block;margin:2px 0 2px 2px" width="90" alt="">
+            </div>
+            <div class="product-list-action">
+                 <span class="product-price">
+                    {{getDecodedBrands(event)}}
+                 </span>
+              <p>{{timeLeft(event.startsAt)}}</p>
+              <button pButton pRipple label="Ulubione" (click)="initEvents()"></button>
+              <div ></div>
+              <button pButton pRipple
+                      [ngClass]="getClass(event)"
+                      [label]="campaignId.includes(event.campaignId) ? 'Usun' : 'Dodaj' "
+                      (click)="addCampaignId(event.campaignId)"></button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template let-event pTemplate="gridItem">
+        <div class="p-col-12 p-md-4">
+          <div class="product-grid-item card">
+            <div class="product-grid-item-top">
+              <div>
+                <i class="pi pi-tag product-category-icon"></i>
+                <span class="product-category">{{event.campaignId}}</span>
+              </div>
+              <!--            <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>-->
+            </div>
+            <div class="product-grid-item-content">
+              {{'"product-grid-item-content"'}}
+            </div>
+            <div class="product-grid-item-bottom">
+              {{'product-grid-item-bottom'}}
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </p-panel>
+
   <p-toast></p-toast>
 </p-card>
 

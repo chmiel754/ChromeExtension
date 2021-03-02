@@ -8,6 +8,11 @@ import {
 } from '@angular/forms';
 import { ShoppingService } from '../services/shopping.service';
 import { MessageService } from 'primeng/api';
+import { ChromeExtensionsService } from '../services/chrome-extensions.service';
+import { MainPageService } from '../services/main-page.service';
+import { ShoppingEvent } from '../models/shoppingEvent.model';
+import { brands } from '../const/brands';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-shopping-panel',
@@ -16,13 +21,25 @@ import { MessageService } from 'primeng/api';
 })
 export class ShoppingPanelComponent implements OnInit {
 
+  datePipe = new Date();
+
   mainForm: FormGroup;
+
+  brands = brands;
+
+  openCampaignsCollapse: true;
 
   campaignId: string;
   itemsAmount: string;
 
-  constructor(private shoppingService: ShoppingService,
-              private messageService: MessageService) {
+  openCampaigns: ShoppingEvent[] = [];
+  upcomingCampaigns: ShoppingEvent[] = [];
+
+  constructor(
+    public chromeExtensionsService: ChromeExtensionsService,
+    private mainPageService: MainPageService,
+    private shoppingService: ShoppingService,
+    private messageService: MessageService) {
   }
 
   ngOnInit(): void {
@@ -37,6 +54,7 @@ export class ShoppingPanelComponent implements OnInit {
         itemAmountToBuy: new FormControl(null),
       }),
     });
+
   }
 
   save() {
@@ -47,6 +65,49 @@ export class ShoppingPanelComponent implements OnInit {
   buyItems() {
     this.shoppingService.handleItemsAndBuy()
       .then(res => this.showMessages(res));
+  }
+
+  initEvents() {
+    this.mainPageService.getEventsList()
+      .then(list => {
+        this.openCampaigns = (list as any).openCampaigns;
+        this.upcomingCampaigns = (list as any).upcomingCampaigns;
+      });
+  }
+
+  getCampaignImg(event: ShoppingEvent): string {
+    return event.images.upcoming;
+  }
+
+  getDecodedBrands(event: ShoppingEvent): string {
+    if (event.brands?.length) {
+      return event.brands.map(el => this.brands[el]).toLocaleString();
+    } else {
+      return '';
+    }
+
+  }
+
+  addCampaignId(id: string) {
+    const campaignIdList = !_.isEmpty(this.campaignId) ?
+      this.campaignId.replace(/\s/g, '').split(',') : [];
+    const elementId = campaignIdList.indexOf(id);
+
+    if (elementId === -1) {
+      campaignIdList.push(id);
+    } else {
+      campaignIdList.splice(elementId, 1);
+    }
+    this.campaignId = campaignIdList.toString();
+  }
+
+  getClass(event) {
+    return this.campaignId.includes(event.campaignId) ? 'p-button-warning' : 'p-button-success';
+  }
+
+  timeLeft(date: string) {
+    const timeLeft = new Date(new Date().getUTCHours() - new Date(date).getUTCHours());
+    return `${timeLeft.getHours()}:${timeLeft.getMinutes()}:${timeLeft.getSeconds()}`;
   }
 
   private showMessages(response): void {

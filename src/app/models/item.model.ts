@@ -10,6 +10,7 @@ export class Item extends Simple {
   nameCategoryTag: string;
   campaignIdentifier: string;
   configSku: string;
+  nameShop: string
 
   constructor(data: { article: ItemRequest; simple: Simple }) {
     super(data.simple);
@@ -21,6 +22,7 @@ export class Item extends Simple {
     this.nameCategoryTag = data.article.nameCategoryTag;
     this.campaignIdentifier = data.article.campaignIdentifier;
     this.configSku = data.article.sku;
+    this.nameShop = data.article.nameShop;
   }
 
   private calcDiscount(item: Simple): number {

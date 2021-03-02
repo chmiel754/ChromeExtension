@@ -6,6 +6,10 @@ import { ItemSetting } from '../interfaces/item-setting';
 import { OrderRequest } from '../interfaces/order-request';
 import { Simple } from '../models/simple.model';
 import { ChromeExtensionsService } from './chrome-extensions.service';
+import { serverAddress } from '../../assets/utils/environment';
+import { sneakersyMock } from '../mock/sneakersy';
+import { AlertService } from './alert.service';
+import { FilterService } from './filter.service';
 import * as _ from 'lodash';
 
 @Injectable({
@@ -13,13 +17,14 @@ import * as _ from 'lodash';
 })
 export class ShoppingService {
 
-  private readonly serverAddress: string = 'https://www.zalando-lounge.pl/api/phoenix/catalog/events/';
-  private readonly orderAddress: string = 'https://www.zalando-lounge.pl/api/phoenix/stockcart/cart/items';
+  private readonly eventAddress: string = `${serverAddress}/api/phoenix/catalog/events/`;
+  private readonly orderAddress: string = `${serverAddress}/api/phoenix/stockcart/cart/items`;
 
   private failedItemList: OrderRequest[];
   private boughtItemsAmount: number;
 
   constructor(private http: HttpClient,
+              private filterService: FilterService,
               private chromeExtensionsService: ChromeExtensionsService) {
 
   }
@@ -31,15 +36,15 @@ export class ShoppingService {
   fetchCampingItems(useFilters: boolean): Promise<ItemRequest[]> {
     const campaignIds: string[] = localStorage.getItem('campaignId').split(',').map(el => el.trim());
     const filters = localStorage.getItem('itemFilters');
-    return Promise.all(campaignIds.map(el => this.http.get<ItemRequest[]>(this.serverAddress + el + (useFilters ? filters : '/articles?size=1000&'))
+    return Promise.all(campaignIds.map(el => this.http.get<ItemRequest[]>(this.eventAddress + el + (useFilters ? filters : '/articles?size=1000&'))
       .toPromise()))
       .then((i) => _.flatten(i));
-    // return Promise.resolve(guessAccMock);
+    // return Promise.resolve(sneakersyMock);
   }
 
   getTopItems(useFilters: boolean): Promise<ItemRequest[]> {
     return this.fetchCampingItems(useFilters)
-      .then(itemList => FilterController.filterTopItems(itemList));
+      .then(itemList => this.filterService.filterTopItems(itemList));
   }
 
   handleItemsAndBuy(): Promise<any> {
@@ -53,7 +58,7 @@ export class ShoppingService {
   handleItems(): Promise<Item[]> {
     return this.fetchCampingItems(true)
       .then(articlesList => ModelParser.parseToItemList(articlesList))
-      .then(itemList => FilterController.filterResultsByUserRequirements(itemList));
+      .then(itemList => this.filterService.filterResultsByUserRequirements(itemList));
   }
 
   callItemOrder(itemList: Item[]): Promise<any>[] {
@@ -107,54 +112,6 @@ export class ModelParser {
       simple: new Simple({ specialPrice: itemRequest.specialPrice, filterName: itemRequest.simples[0].filterName }),
     });
   }
-}
-
-class FilterController {
-  static filterResultsByUserRequirements(itemList: Item[]): Item[] {
-    const filterController = new FilterController();
-    const itemSettings = JSON.parse(localStorage.getItem('manSettings'));
-    return itemList.filter(item =>
-      filterController.isSelectedSize(item, itemSettings)
-      && filterController.isInPriceRange(item, itemSettings)
-      && filterController.isSelectedTopMark(item, itemSettings)
-      && filterController.isDiscountEnough(item, itemSettings),
-    );
-  }
-
-  static filterTopItems(itemRequest: ItemRequest[]): ItemRequest[] {
-    const filterController = new FilterController();
-    const itemSettings = JSON.parse(localStorage.getItem('manSettings'));
-    return itemRequest.filter(item => {
-        const parsedItem = ModelParser.itemRequestToSimpleItem(item);
-        return filterController.isSelectedTopMark(parsedItem, itemSettings)
-          && filterController.isInPriceRange(parsedItem, itemSettings);
-      },
-    );
-  }
-
-  private isInPriceRange(item: Item, itemSettings: ItemSetting): boolean {
-    const priceRange: number[] = itemSettings.prices[item.filterName] || [0, 0];
-    return item.specialPrice / 100 >= priceRange[0] && item.specialPrice / 100 <= priceRange[1];
-  }
-
-  private isSelectedTopMark(item: Item, itemSettings: ItemSetting): boolean {
-    const topMarkList: string[] = itemSettings.marks.top || [];
-    if (itemSettings.marks.other?.length >= 3) {
-      return !!topMarkList.find(el => item.brand.includes(el.toLowerCase())) || item.brand.includes(itemSettings.marks.other.toLowerCase());
-    } else {
-      return !!topMarkList.find(el => item.brand.includes(el.toLowerCase()));
-    }
-  }
-
-  private isSelectedSize(item: Item, itemSettings: ItemSetting): boolean {
-    const sizesList: string[] = itemSettings.sizes[item.filterName] || [];
-    return sizesList.length ? !!sizesList.find(el => item.filterValue === el || item.filterValue === 'onesize') : false;
-  }
-
-  private isDiscountEnough(item: Item, itemSettings: ItemSetting): boolean {
-    return itemSettings.discount ? item.discount >= itemSettings.discount : true;
-  }
-
 }
 
 export function sleep(ms) {

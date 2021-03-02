@@ -11,12 +11,15 @@
     <button pButton pRipple
             [label]="'Sortuj wg zniżki'"
             (click)="sortByDiscount()"></button>
+    <button pButton pRipple
+            [label]="'Jordan first'"
+            (click)="sortJordanFirst()"></button>
 </span>
 <br/>
 <br/>
 <p-orderList
   #orderList
-  [filterBy]="'nameCategoryTag'"
+  [filterBy]="'nameShop'"
   [value]="topItemList"
   [listStyle]="{'height':'auto'}">
   <ng-template let-item pTemplate="item">
@@ -25,7 +28,7 @@
         <img [src]="getItemPhoto(item)" style="display:inline-block;margin:2px 0 2px 2px" width="90" alt="">
       </div>
       <div class="product-list-detail">
-        <h5 class="p-mb-2">{{item.brand}}</h5>
+        <h5 class="p-mb-2">{{item.brand}} - {{item.nameShop}}</h5>
         <i class="pi pi-tag product-category-icon"></i>
         <span class="product-category">{{item.nameCategoryTag}}</span>
       </div>
@@ -45,16 +48,6 @@
                     [class]="'p-button-success'"
                     [label]="'Kopiuj URL'"
                     (click)="goToItem(item)"></button>
-
-            <button pButton pRipple
-                    [class]="'p-button-success'"
-                    [label]="'Cena zalando PL'"
-                    (click)="zalandoService.getZalandoPrice(item)"></button>
-
-            <button pButton pRipple
-                    [class]="'p-button-success'"
-                    [label]="'Cena zalando PL'"
-                    (click)="zalandoService.getZalandoPrice(item, 'DE')"></button>
         </span>
       </div>
     </div>

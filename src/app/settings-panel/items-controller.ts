@@ -22,7 +22,7 @@ export class ItemsController {
   public shoes: string[] = ['35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46'];
 
   public topMarksList: any[] = ['Levi\'s', 'Lacoste', 'Tommy', 'Calvin', 'Dolce', 'Guess', 'Diesel', 'Adidas', 'Ralph', 'Michael', 'LAGERFELD', 'HUGO',
-    'BOSS', 'Nike', 'Armani', 'Converse'];
+    'BOSS', 'Nike', 'Armani', 'Converse', 'Jordan'];
 
   public manCategories = {
     shoes: [

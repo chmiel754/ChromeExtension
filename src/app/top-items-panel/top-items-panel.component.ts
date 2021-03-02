@@ -1,5 +1,6 @@
 import {
   Component,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import {
@@ -12,7 +13,6 @@ import { Simple } from '../models/simple.model';
 import { StockStatus } from '../enum/stock-status.enum';
 import { OrderList } from 'primeng/orderlist';
 import { ChromeExtensionsService } from '../services/chrome-extensions.service';
-import { ZalandoService } from '../services/zalando.service';
 import { Item } from '../models/item.model';
 
 @Component({
@@ -30,15 +30,17 @@ export class TopItemsPanelComponent {
   topItemList: ItemRequest[] = [];
 
   constructor(private shoppingService: ShoppingService,
-              public zalandoService: ZalandoService,
               public chromeExtensionsService: ChromeExtensionsService,
               private messageService: MessageService) {
+
+    this.topItemList = JSON.parse(localStorage.getItem('topItemList')) || [];
   }
 
   initItemList(useFilters: boolean): void {
     this.topItemList = [];
     this.shoppingService.getTopItems(useFilters)
       .then((list) => this.topItemList.push(...list))
+      .then(() => localStorage.setItem('topItemList', JSON.stringify(this.topItemList)))
       .then(() => this.sortByPrice());
   }
 
@@ -78,7 +80,13 @@ export class TopItemsPanelComponent {
     this.orderList.cd.detectChanges();
   }
 
+  sortJordanFirst() {
+    this.topItemList.sort((a, b) => a.brand === 'Jordan' ? -1 : 1);
+    this.orderList.cd.detectChanges();
+  }
+
   goToItem(item: ItemRequest) {
+    this.copyText(`https://www.zalando-lounge.pl${item.urlPath['45']}`);
     this.chromeExtensionsService.log(`Url = https://www.zalando-lounge.pl${item.urlPath['45']}`);
   }
 

@@ -6,7 +6,7 @@ export class ItemRequest {
   sku: string;
   brand: string;
   brandCode: string;
-  categoryId: number;
+  categoryId?: number;
   images: string[];
   media: Media[];
   subtitle: string;

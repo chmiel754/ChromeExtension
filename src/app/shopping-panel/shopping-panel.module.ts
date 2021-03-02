@@ -10,6 +10,10 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
+import { DataViewModule } from 'primeng/dataview';
+import { DropdownModule } from 'primeng/dropdown';
+import { PanelModule } from 'primeng/panel';
+
 
 @NgModule({
   declarations: [ShoppingPanelComponent],
@@ -22,6 +26,9 @@ import { ToastModule } from 'primeng/toast';
     FormsModule,
     MessagesModule,
     ToastModule,
+    DataViewModule,
+    DropdownModule,
+    PanelModule,
   ],
   exports: [
     ShoppingPanelComponent,

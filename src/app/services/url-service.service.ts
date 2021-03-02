@@ -58,28 +58,28 @@ class EventItemsFiltersBuilder {
   }
 
   setTops(sizesList: string[]): EventItemsFiltersBuilder {
-    if (sizesList.length) {
+    if (sizesList?.length) {
       this.tops = '&sizes.tops=' + sizesList.join(this.spaceSign);
     }
     return this;
   }
 
   setPants(sizesList: string[]): EventItemsFiltersBuilder {
-    if (sizesList.length) {
+    if (sizesList?.length) {
       this.pants = '&sizes.pants=' + sizesList.join(this.spaceSign);
     }
     return this;
   }
 
   setUnderwear(sizesList: string[]): EventItemsFiltersBuilder {
-    if (sizesList.length) {
+    if (sizesList?.length) {
       this.underwear = '&sizes.underwear=' + sizesList.join(this.spaceSign).replace('/', '%2F');
     }
     return this;
   }
 
   setShoes(sizesList: string[]): EventItemsFiltersBuilder {
-    if (sizesList.length) {
+    if (sizesList?.length) {
       this.shoes = '&sizes.shoes=' + sizesList.join(this.spaceSign);
     }
     return this;
