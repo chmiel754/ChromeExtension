@@ -1,12 +1,16 @@
+import { StockStatus } from '../enum/stock-status.enum';
+
 export class Simple {
   sku: string;
   price: number;
   specialPrice: number;
   filterName: string;
   filterValue: string;
-  stockStatus: string;
+  stockStatus: StockStatus;
   stockHasReservations: boolean;
   country_sizes: object;
+  supplier_size: string;
+  supplier_size_country: string;
 
   constructor(source: any) {
     this.sku = source.sku;

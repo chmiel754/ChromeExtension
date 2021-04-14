@@ -11,6 +11,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { DialogModule } from 'primeng/dialog';
 import { ShoppingPanelModule } from './shopping-panel/shopping-panel.module';
 import { TopItemsPanelModule } from './top-items-panel/top-items-panel.module';
+import { RepeaterModule } from './repeater-panel/repeater.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +27,7 @@ import { TopItemsPanelModule } from './top-items-panel/top-items-panel.module';
     TabViewModule,
     ShoppingPanelModule,
     TopItemsPanelModule,
+    RepeaterModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

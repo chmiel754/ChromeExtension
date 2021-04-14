@@ -14,13 +14,14 @@ import { StockStatus } from '../enum/stock-status.enum';
 import { OrderList } from 'primeng/orderlist';
 import { ChromeExtensionsService } from '../services/chrome-extensions.service';
 import { Item } from '../models/item.model';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-top-items-panel',
   templateUrl: './top-items-panel.component.html',
   providers: [MessageService],
 })
-export class TopItemsPanelComponent {
+export class TopItemsPanelComponent implements OnInit {
 
   @ViewChild('orderList')
   orderList: OrderList;
@@ -30,18 +31,24 @@ export class TopItemsPanelComponent {
   topItemList: ItemRequest[] = [];
 
   constructor(private shoppingService: ShoppingService,
+              private alertService: AlertService,
               public chromeExtensionsService: ChromeExtensionsService,
               private messageService: MessageService) {
 
     this.topItemList = JSON.parse(localStorage.getItem('topItemList')) || [];
   }
 
+  ngOnInit() {
+  }
+
   initItemList(useFilters: boolean): void {
     this.topItemList = [];
+    this.alertService.clearValues();
     this.shoppingService.getTopItems(useFilters)
       .then((list) => this.topItemList.push(...list))
       .then(() => localStorage.setItem('topItemList', JSON.stringify(this.topItemList)))
-      .then(() => this.sortByPrice());
+      .then(() => this.sortByPrice())
+      .then(() => console.log(this.alertService.allAlerts));
   }
 
   getItemPhoto(item: ItemRequest): string {
@@ -88,6 +95,15 @@ export class TopItemsPanelComponent {
   goToItem(item: ItemRequest) {
     this.copyText(`https://www.zalando-lounge.pl${item.urlPath['45']}`);
     this.chromeExtensionsService.log(`Url = https://www.zalando-lounge.pl${item.urlPath['45']}`);
+  }
+
+  setJordanButtonClass(alert: boolean): string {
+    if (alert) {
+      console.log('alert');
+      return 'p-button-warning';
+    } else {
+      return '';
+    }
   }
 
   copyText(val: string) {

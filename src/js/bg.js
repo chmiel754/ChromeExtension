@@ -31,6 +31,13 @@ chrome.runtime.onConnect.addListener(function (port) {
     });
 });
 
+
+chrome.browserAction.onClicked.addListener(function(activeTab)
+{
+  chrome.windows.create({ url: chrome.runtime.getURL("index.html"), type:
+      "popup" });
+});
+
 // Receive message from content script and relay to the devTools page for the
 // current tab
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {

@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { ItemsController } from './items-controller';
 import { UrlServiceService } from '../services/url-service.service';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-settings-panel',
@@ -21,7 +22,8 @@ export class SettingsPanelComponent implements OnInit {
   itemsController = new ItemsController();
   storedFormValues = {};
 
-  constructor(private urlServiceService: UrlServiceService) {
+  constructor(private urlServiceService: UrlServiceService,
+              private alertService: AlertService) {
     this.storedFormValues = JSON.parse(localStorage.getItem('manSettings'));
   }
 
@@ -39,6 +41,7 @@ export class SettingsPanelComponent implements OnInit {
       marks: new FormGroup({
         top: new FormControl(null),
         other: new FormControl(null),
+        alert: new FormControl(null),
       }),
       categories: new FormGroup({
         clothes: new FormControl(null),
@@ -68,6 +71,7 @@ export class SettingsPanelComponent implements OnInit {
     localStorage.setItem('manSettings', JSON.stringify(this.manSettings.value));
     localStorage.setItem('pricesRange', JSON.stringify(this.manSettings.value.prices));
     localStorage.setItem('requestDelay', JSON.stringify(this.manSettings.value.requestDelay));
+    this.alertService.clearValues();
     this.urlServiceService.saveItemFilters(this.manSettings.value);
   }
 

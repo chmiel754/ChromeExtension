@@ -47,11 +47,9 @@ export class FilterService {
   }
 
   private checkModel(item: Item, itemSettings: ItemSetting): boolean {
-    itemSettings.models?.forEach(el => {
-      if (item.nameShop.includes(el)) {
-        this.alertService.updateAlerts({ [item.brand]: item.nameShop });
-      }
-    });
+    // if (item.nameShop.toLowerCase().includes(itemSettings.marks.alert.toLowerCase())) {
+    //   this.alertService.updateAlerts({ [item.brand]: item.nameShop });
+    // }
     return true;
   }
 

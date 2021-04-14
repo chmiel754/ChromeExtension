@@ -5,21 +5,24 @@ import {
 } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AlertService {
-  allAlerts: object[];
+  allAlerts: object = {};
 
-  alerts: BehaviorSubject<object[]> = new BehaviorSubject<object[]>([]);
+  alerts: BehaviorSubject<object> = new BehaviorSubject<object>({});
 
   updateAlerts(alertValue: {}): void {
-    this.allAlerts.push(alertValue);
+    this.allAlerts = Object.assign(this.allAlerts, alertValue);
     this.alerts.next(this.allAlerts);
   }
 
-  getAlertsObservable(): Observable<object[]> {
+  getAlertsObservable(): Observable<object> {
     return this.alerts.asObservable();
   }
 
+  clearValues() {
+    this.allAlerts = {};
+  }
 
 }

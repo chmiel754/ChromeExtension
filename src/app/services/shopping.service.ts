@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+} from '@angular/common/http';
 import { ItemRequest } from '../models/itemRequest.model';
 import { Item } from '../models/item.model';
-import { ItemSetting } from '../interfaces/item-setting';
 import { OrderRequest } from '../interfaces/order-request';
 import { Simple } from '../models/simple.model';
 import { ChromeExtensionsService } from './chrome-extensions.service';
 import { serverAddress } from '../../assets/utils/environment';
-import { sneakersyMock } from '../mock/sneakersy';
-import { AlertService } from './alert.service';
 import { FilterService } from './filter.service';
 import * as _ from 'lodash';
+import { itemDetails } from '../mock/itemDetailsMock';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,7 @@ export class ShoppingService {
 
   private readonly eventAddress: string = `${serverAddress}/api/phoenix/catalog/events/`;
   private readonly orderAddress: string = `${serverAddress}/api/phoenix/stockcart/cart/items`;
+  private readonly articleDetails: (eventId: string, articleId: string) => string = (eventId, articleId) => `${serverAddress}/api/phoenix/catalog/events/${eventId}/articles/${articleId}`;
 
   private failedItemList: OrderRequest[];
   private boughtItemsAmount: number;
@@ -82,6 +84,14 @@ export class ShoppingService {
         }));
   }
 
+  getArticleDetails(eventId: string, articleId: string): Promise<ItemRequest> {
+    const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+    return this.http.get<ItemRequest>(this.articleDetails(eventId, articleId), {
+      headers,
+    }).toPromise();
+    // return Promise.resolve(itemDetails);
+  }
+
 }
 
 export class ModelParser {
@@ -102,6 +112,7 @@ export class ModelParser {
       additional: { reco: 0 },
       ignoreExceptionCodes: [
         506,
+        509,
       ],
     };
   }

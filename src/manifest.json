@@ -3,11 +3,12 @@
   "version": "1.0",
   "manifest_version": 2,
   "browser_action": {
-    "default_popup": "index.html",
     "settings_popup": "settings.html"
   },
   "background": {
-    "scripts": ["js/bg.js"]
+    "scripts": [
+      "js/bg.js"
+    ]
   },
   "devtools_page": "devtools.html",
   "permissions": [

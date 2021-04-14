@@ -1,8 +1,9 @@
 import { Media } from './media.model';
 import { Simple } from './simple.model';
+import { Attribute } from './attribute.model';
 
 export class ItemRequest {
-  attributes?: { is_wearable: boolean };
+  attributes?: Attribute;
   sku: string;
   brand: string;
   brandCode: string;
@@ -24,4 +25,11 @@ export class ItemRequest {
   savings: number;
   gender: string[];
   stockStatus: string;
+  description: any[];
+  taxCode: number;
+  targetGroups: string[];
+  modelSku: string;
+  sizechartUrl: string;
+  colorFamilyKey: number;
+  filters: any[];
 }
