@@ -4,7 +4,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  ModelParser,
   ShoppingService,
 } from '../services/shopping.service';
 import { ItemRequest } from '../models/itemRequest.model';
@@ -16,6 +15,8 @@ import { ChromeExtensionsService } from '../services/chrome-extensions.service';
 import { Item } from '../models/item.model';
 import { AlertService } from '../services/alert.service';
 import { SniperItemListService } from '../repeater-panel/sniper-item-list.service';
+import { ModelParser } from '../services/model-parser';
+import { ApiServiceService } from '../services/api-service.service';
 
 @Component({
   selector: 'app-top-items-panel',
@@ -34,6 +35,7 @@ export class TopItemsPanelComponent implements OnInit {
   constructor(private shoppingService: ShoppingService,
               private alertService: AlertService,
               private messageService: MessageService,
+              private apiServiceService: ApiServiceService,
               public sniperItemListService: SniperItemListService,
               public chromeExtensionsService: ChromeExtensionsService) {
 
@@ -95,8 +97,8 @@ export class TopItemsPanelComponent implements OnInit {
   }
 
   goToItem(item: ItemRequest) {
-    this.chromeExtensionsService.copyText(`https://www.zalando-lounge.pl${item.urlPath['45']}`);
-    this.chromeExtensionsService.log(`Url = https://www.zalando-lounge.pl${item.urlPath['45']}`);
+    this.chromeExtensionsService.copyText(this.apiServiceService.getItemDetailsAddress(item));
+    this.chromeExtensionsService.log(`Url = ${this.apiServiceService.getItemDetailsAddress(item)}`);
   }
 
   setJordanButtonClass(alert: boolean): string {

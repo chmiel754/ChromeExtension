@@ -12,33 +12,32 @@ import { serverAddress } from '../../assets/utils/environment';
 import { FilterService } from './filter.service';
 import * as _ from 'lodash';
 import { itemDetails } from '../mock/itemDetailsMock';
+import { ModelParser } from './model-parser';
+import { ApiServiceService } from './api-service.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShoppingService {
 
-  private readonly eventAddress: string = `${serverAddress}/api/phoenix/catalog/events/`;
-  private readonly orderAddress: string = `${serverAddress}/api/phoenix/stockcart/cart/items`;
-  private readonly articleDetails: (eventId: string, articleId: string) => string = (eventId, articleId) => `${serverAddress}/api/phoenix/catalog/events/${eventId}/articles/${articleId}`;
-
   private failedItemList: OrderRequest[];
   private boughtItemsAmount: number;
 
   constructor(private http: HttpClient,
+              private apiServiceService: ApiServiceService,
               private filterService: FilterService,
               private chromeExtensionsService: ChromeExtensionsService) {
 
   }
 
   buy(itemRequest: ItemRequest, simple: Simple): Promise<any> {
-    return this.http.post(this.orderAddress, ModelParser.parseItemToOrderRequest(new Item({ article: itemRequest, simple }))).toPromise();
+    return this.http.post(this.apiServiceService.getOrderAddress(), ModelParser.parseItemToOrderRequest(new Item({ article: itemRequest, simple }))).toPromise();
   }
 
   fetchCampingItems(useFilters: boolean): Promise<ItemRequest[]> {
     const campaignIds: string[] = localStorage.getItem('campaignId').split(',').map(el => el.trim());
     const filters = localStorage.getItem('itemFilters');
-    return Promise.all(campaignIds.map(el => this.http.get<ItemRequest[]>(this.eventAddress + el + (useFilters ? filters : '/articles?size=1000&'))
+    return Promise.all(campaignIds.map(el => this.http.get<ItemRequest[]>(this.apiServiceService.getEventAddress() + el + (useFilters ? filters : '/articles?size=1000&'))
       .toPromise()))
       .then((i) => _.flatten(i));
     // return Promise.resolve(sneakersyMock);
@@ -75,7 +74,7 @@ export class ShoppingService {
 
   orderRequest(item: Item, delay: number = 0): Promise<any> {
     return sleep(delay)
-      .then(() => this.http.post(this.orderAddress, ModelParser.parseItemToOrderRequest(item)).toPromise()
+      .then(() => this.http.post(this.apiServiceService.getOrderAddress(), ModelParser.parseItemToOrderRequest(item)).toPromise()
         .then(() => this.boughtItemsAmount++)
         .catch(err => {
           this.failedItemList.push(ModelParser.parseItemToOrderRequest(item));
@@ -86,43 +85,12 @@ export class ShoppingService {
 
   getArticleDetails(eventId: string, articleId: string): Promise<ItemRequest> {
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
-    return this.http.get<ItemRequest>(this.articleDetails(eventId, articleId), {
+    return this.http.get<ItemRequest>(this.apiServiceService.getArticleDetailsAddress(eventId, articleId), {
       headers,
     }).toPromise();
     // return Promise.resolve(itemDetails);
   }
 
-}
-
-export class ModelParser {
-  static parseToItemList(articlesList: ItemRequest[]): Item[] {
-    const loggerService: ChromeExtensionsService = new ChromeExtensionsService();
-    loggerService.log(`Items ${articlesList.length}`);
-    const results: Item[] = [];
-    articlesList.forEach((el: ItemRequest) => el?.simples.forEach(i => results.push(new Item({ article: el, simple: i }))));
-    return results;
-  }
-
-  static parseItemToOrderRequest(item: Item): OrderRequest {
-    return {
-      quantity: 1,
-      campaignIdentifier: item.campaignIdentifier,
-      configSku: item.configSku,
-      simpleSku: item.sku,
-      additional: { reco: 0 },
-      ignoreExceptionCodes: [
-        506,
-        509,
-      ],
-    };
-  }
-
-  static itemRequestToSimpleItem(itemRequest: ItemRequest): Item {
-    return new Item({
-      article: itemRequest,
-      simple: new Simple({ specialPrice: itemRequest.specialPrice, filterName: itemRequest.simples[0].filterName }),
-    });
-  }
 }
 
 export function sleep(ms) {

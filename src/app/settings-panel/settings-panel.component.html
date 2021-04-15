@@ -11,10 +11,21 @@
     <p-panel class="own-values">
       <div class="form-group">
 
-        <p-inputNumber label="Discount" formControlName="discount" placeholder="Discount" [min]="0" [max]="100"></p-inputNumber>
+        <div class="p-grid">
+          <div class="p-col-3">
+            <p-selectButton [options]="tenantList" formControlName="tenant" optionLabel="label"
+                            optionValue="value"></p-selectButton>
+          </div>
+          <div class="p-col-3">
+            <p-inputNumber label="Discount" formControlName="discount" placeholder="Discount" [min]="0"
+                           [max]="100"></p-inputNumber>
 
-        <p-inputNumber label="Request delay" formControlName="requestDelay" placeholder="Request delay" [min]="0"
-                       [max]="10000"></p-inputNumber>
+            <p-inputNumber label="Request delay" formControlName="requestDelay" placeholder="Request delay" [min]="0"
+                           [max]="10000"></p-inputNumber>
+          </div>
+        </div>
+
+
       </div>
 
       <div formGroupName="marks">

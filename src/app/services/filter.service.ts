@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AlertService } from './alert.service';
 import { Item } from '../models/item.model';
 import { ItemRequest } from '../models/itemRequest.model';
 import { ItemSetting } from '../interfaces/item-setting';
-import { ModelParser } from './shopping.service';
+import { ModelParser } from './model-parser';
 
 @Injectable({ providedIn: 'root' })
 export class FilterService {
 
-  constructor(private alertService: AlertService) {
+  constructor() {
   }
 
   filterResultsByUserRequirements(itemList: Item[]): Item[] {

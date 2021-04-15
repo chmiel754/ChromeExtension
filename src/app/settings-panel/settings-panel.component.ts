@@ -2,7 +2,10 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import {
+  MessageService,
+  SelectItem,
+} from 'primeng/api';
 import {
   FormControl,
   FormGroup,
@@ -21,6 +24,8 @@ export class SettingsPanelComponent implements OnInit {
   manSettings: FormGroup;
   itemsController = new ItemsController();
   storedFormValues = {};
+
+  tenantList: SelectItem[] = [{ label: 'PL', value: 'pl' }, { label: 'DE', value: 'de' }];
 
   constructor(private urlServiceService: UrlServiceService,
               private alertService: AlertService) {
@@ -64,6 +69,7 @@ export class SettingsPanelComponent implements OnInit {
       }),
       discount: new FormControl(null),
       requestDelay: new FormControl(null),
+      tenant: new FormControl(null),
     });
   }
 
@@ -71,6 +77,7 @@ export class SettingsPanelComponent implements OnInit {
     localStorage.setItem('manSettings', JSON.stringify(this.manSettings.value));
     localStorage.setItem('pricesRange', JSON.stringify(this.manSettings.value.prices));
     localStorage.setItem('requestDelay', JSON.stringify(this.manSettings.value.requestDelay));
+    localStorage.setItem('tenant', JSON.stringify(this.manSettings.value.tenant));
     this.alertService.clearValues();
     this.urlServiceService.saveItemFilters(this.manSettings.value);
   }

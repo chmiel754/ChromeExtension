@@ -20,7 +20,6 @@ export class RepeaterComponent implements OnInit {
   ngOnInit(): void {
     this.sniperItemListService.getItemList()
       .subscribe(list => {
-        console.log('RepeaterComponent', list);
         this.sniperItemList = list;
       });
   }
