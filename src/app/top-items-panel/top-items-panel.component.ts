@@ -15,6 +15,7 @@ import { OrderList } from 'primeng/orderlist';
 import { ChromeExtensionsService } from '../services/chrome-extensions.service';
 import { Item } from '../models/item.model';
 import { AlertService } from '../services/alert.service';
+import { SniperItemListService } from '../repeater-panel/sniper-item-list.service';
 
 @Component({
   selector: 'app-top-items-panel',
@@ -32,8 +33,9 @@ export class TopItemsPanelComponent implements OnInit {
 
   constructor(private shoppingService: ShoppingService,
               private alertService: AlertService,
-              public chromeExtensionsService: ChromeExtensionsService,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              public sniperItemListService: SniperItemListService,
+              public chromeExtensionsService: ChromeExtensionsService) {
 
     this.topItemList = JSON.parse(localStorage.getItem('topItemList')) || [];
   }
@@ -47,8 +49,8 @@ export class TopItemsPanelComponent implements OnInit {
     this.shoppingService.getTopItems(useFilters)
       .then((list) => this.topItemList.push(...list))
       .then(() => localStorage.setItem('topItemList', JSON.stringify(this.topItemList)))
-      .then(() => this.sortByPrice())
-      .then(() => console.log(this.alertService.allAlerts));
+      .then(() => this.sortByPrice());
+      // .then(() => console.log(this.alertService.allAlerts));
   }
 
   getItemPhoto(item: ItemRequest): string {
@@ -72,7 +74,7 @@ export class TopItemsPanelComponent implements OnInit {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: `Successfully bought` });
       })
       .catch(err => {
-        this.copyText(JSON.stringify(ModelParser.parseItemToOrderRequest(new Item({ article: item, simple }))));
+        this.chromeExtensionsService.copyText(JSON.stringify(ModelParser.parseItemToOrderRequest(new Item({ article: item, simple }))));
         this.messageService.add({ severity: 'error', summary: 'Failed', detail: `Failed - ${err.error.message}` });
       });
   }
@@ -93,7 +95,7 @@ export class TopItemsPanelComponent implements OnInit {
   }
 
   goToItem(item: ItemRequest) {
-    this.copyText(`https://www.zalando-lounge.pl${item.urlPath['45']}`);
+    this.chromeExtensionsService.copyText(`https://www.zalando-lounge.pl${item.urlPath['45']}`);
     this.chromeExtensionsService.log(`Url = https://www.zalando-lounge.pl${item.urlPath['45']}`);
   }
 
@@ -104,19 +106,5 @@ export class TopItemsPanelComponent implements OnInit {
     } else {
       return '';
     }
-  }
-
-  copyText(val: string) {
-    const selBox = document.createElement('textarea');
-    selBox.style.position = 'fixed';
-    selBox.style.left = '0';
-    selBox.style.top = '0';
-    selBox.style.opacity = '0';
-    selBox.value = val;
-    document.body.appendChild(selBox);
-    selBox.focus();
-    selBox.select();
-    document.execCommand('copy');
-    document.body.removeChild(selBox);
   }
 }

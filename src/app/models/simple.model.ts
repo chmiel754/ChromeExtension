@@ -8,9 +8,9 @@ export class Simple {
   filterValue: string;
   stockStatus: StockStatus;
   stockHasReservations: boolean;
-  country_sizes: object;
-  supplier_size: string;
-  supplier_size_country: string;
+  country_sizes?: object;
+  supplier_size?: string;
+  supplier_size_country?: string;
 
   constructor(source: any) {
     this.sku = source.sku;

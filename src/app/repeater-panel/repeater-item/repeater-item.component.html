@@ -1,11 +1,11 @@
 <div class="product-item">
   <div class="image-container">
-    <img [src]="getItemPhoto(item)" style="display:inline-block;margin:2px 0 2px 2px" width="90" alt="">
+    <img [src]="getItemPhoto(sniper.item)" style="display:inline-block;margin:2px 0 2px 2px" width="90" alt="">
   </div>
   <div class="product-list-detail">
-    <h5 class="p-mb-2">{{item.brand}} - {{item.nameShop}} - {{item.sku}}</h5>
+    <h5 class="p-mb-2">{{sniper.item.brand}} - {{sniper.item.nameShop}} - {{sniper.item.sku}}</h5>
     <i class="pi pi-tag product-category-icon"></i>
-    <span class="product-category">{{item.nameCategoryTag}}</span>
+    <span class="product-category">{{sniper.item.nameCategoryTag}}</span>
   </div>
   <div class="product-list-action">
    {{sniper.status}}
@@ -16,14 +16,17 @@
         <button pButton pRipple label="Stop"
                 (click) = sniper.stop()
                 icon="pi pi-times"></button>
-        <button pButton pRipple label="Usuń" icon="pi pi-trash"></button>
+        <button pButton pRipple label="Usuń"
+                (click) = sniperItemListService.deleteItem(sniper.item)
+                icon="pi pi-trash"></button>
     </span>
     <h5>
-      Special price - {{item.specialPrice / 100}}
+      Special price - {{sniper.item.specialPrice / 100}}
     </h5>
-<!--    <h7>Regular price - {{item.price / 100}}, savings - {{item.savings}}</h7>-->
+    {{wantedItemList.size}}
+<!--    <h7>Regular price - {{sniper.item.price / 100}}, savings - {{sniper.item.savings}}</h7>-->
     <span>
-          <ng-container *ngFor="let simple of item.simples">
+          <ng-container *ngFor="let simple of sniper.item.simples">
             <button pButton pRipple
                     [class]="getSimpleClass(simple)"
                     (click)="insertIntoWantedList(simple)"

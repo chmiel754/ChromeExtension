@@ -1,6 +1,5 @@
 import {
   Component,
-  Inject,
   Injector,
   Input,
   OnInit,
@@ -10,6 +9,7 @@ import { ItemRequest } from '../../models/itemRequest.model';
 import { StockStatus } from '../../enum/stock-status.enum';
 import { Simple } from '../../models/simple.model';
 import { Sniper } from './sniper';
+import { SniperItemListService } from '../sniper-item-list.service';
 
 @Component({
   selector: 'app-repeater-item',
@@ -18,30 +18,27 @@ import { Sniper } from './sniper';
 })
 export class RepeaterItemComponent implements OnInit {
 
-  private wantedItemList: Map<string, string> = new Map();
+  public wantedItemList: Map<string, string> = new Map();
 
   @Input()
-  eventId: string = 'ZZO1B6L';
+  eventId: string;
 
   @Input()
-  articleId: string = 'JOC12N017-Q13';
+  articleId: string;
 
-  item: ItemRequest = new ItemRequest();
-
-  sniper: Sniper = new Sniper({
-    eventId: this.eventId,
-    articleId: this.articleId,
-    item: this.item,
-    wantedItemList: this.wantedItemList,
-  }, this.injector);
+  sniper: Sniper;
 
   constructor(private shoppingService: ShoppingService,
-              private injector: Injector) {
+              private injector: Injector,
+              public sniperItemListService: SniperItemListService) {
   }
 
   ngOnInit(): void {
-    this.shoppingService.getArticleDetails(this.eventId, this.articleId)
-      .then(res => this.item = res);
+    this.sniper = new Sniper({
+      eventId: () => this.eventId,
+      articleId: () => this.articleId,
+      wantedItemList: this.wantedItemList,
+    }, this.injector);
   }
 
   insertIntoWantedList(simple: Simple): void {
@@ -53,7 +50,7 @@ export class RepeaterItemComponent implements OnInit {
   }
 
   getItemPhoto(item: ItemRequest): string {
-    return `https://mosaic03.ztat.net/vgs/media/zlcatalog/${item.media[0].path}`;
+    return item.media ? `https://mosaic03.ztat.net/vgs/media/zlcatalog/${item.media[0].path}` : '';
   }
 
   getSimpleClass(simple: Simple): string {

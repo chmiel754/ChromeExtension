@@ -1,16 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
+import { ItemRequest } from '../models/itemRequest.model';
+import { SniperItemListService } from './sniper-item-list.service';
 
 @Component({
   selector: 'app-repeater',
   templateUrl: './repeater.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class RepeaterComponent implements OnInit {
 
-  constructor() { }
+  sniperItemList: ItemRequest[] = [];
+
+  constructor(private sniperItemListService: SniperItemListService) {
+  }
 
   ngOnInit(): void {
+    this.sniperItemListService.getItemList()
+      .subscribe(list => {
+        console.log('RepeaterComponent', list);
+        this.sniperItemList = list;
+      });
   }
 
 }

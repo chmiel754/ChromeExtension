@@ -1,3 +1,7 @@
-<p-card>
-  <app-repeater-item></app-repeater-item>
-</p-card>
+<ng-container *ngFor="let item of sniperItemList">
+  <p-card>
+    <app-repeater-item [articleId]="item.sku"
+                       [eventId]="item.campaignIdentifier">
+    </app-repeater-item>
+  </p-card>
+</ng-container>

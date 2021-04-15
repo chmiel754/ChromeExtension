@@ -48,6 +48,10 @@
                     [class]="'p-button-success'"
                     [label]="'Kopiuj URL'"
                     (click)="goToItem(item)"></button>
+            <button pButton pRipple
+                    [class]="'p-button-success'"
+                    [label]="'Sniper'"
+                    (click)="sniperItemListService.addItem(item)"></button>
         </span>
       </div>
     </div>

@@ -15,7 +15,7 @@ export class Item extends Simple {
   constructor(data: { article: ItemRequest; simple: Simple }) {
     super(data.simple);
     this.discount = this.calcDiscount(data.simple);
-    this.urlPath = data.article.urlPath[45];
+    this.urlPath = data.article?.urlPath[45];
     this.images = data.article.images;
     this.brand = data.article.brand?.toLowerCase();
     this.brandCode = data.article.brandCode;
