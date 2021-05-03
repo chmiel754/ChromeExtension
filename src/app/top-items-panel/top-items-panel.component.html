@@ -2,18 +2,21 @@
       <button pButton pRipple
               [label]="'Pobierz bez filtrów'"
               (click)="initItemList(false)"></button>
-        <button pButton pRipple
-                [label]="'Pobierz z filtrami'"
-                (click)="initItemList(true)"></button>
-    <button pButton pRipple
-            [label]="'Sortuj wg ceny'"
-            (click)="sortByPrice()"></button>
-    <button pButton pRipple
-            [label]="'Sortuj wg zniżki'"
-            (click)="sortByDiscount()"></button>
-    <button pButton pRipple
-            [label]="'Jordan first'"
-            (click)="sortJordanFirst()"></button>
+      <button pButton pRipple
+              [label]="'Jordan first'"
+              (click)="sortJordanFirst()"></button>
+      <button pButton pRipple
+              [label]="'Empty first'"
+              (click)="emptyNamesFirst()"></button>
+      <button pButton pRipple
+              [label]="'Pobierz z filtrami'"
+              (click)="initItemList(true)"></button>
+      <button pButton pRipple
+              [label]="'Sortuj wg ceny'"
+              (click)="sortByPrice()"></button>
+      <button pButton pRipple
+              [label]="'Sortuj wg zniżki'"
+              (click)="sortByDiscount()"></button>
 </span>
 <br/>
 <br/>

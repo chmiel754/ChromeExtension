@@ -17,6 +17,7 @@ import { AlertService } from '../services/alert.service';
 import { SniperItemListService } from '../repeater-panel/sniper-item-list.service';
 import { ModelParser } from '../services/model-parser';
 import { ApiServiceService } from '../services/api-service.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-top-items-panel',
@@ -93,6 +94,11 @@ export class TopItemsPanelComponent implements OnInit {
 
   sortJordanFirst() {
     this.topItemList.sort((a, b) => a.brand === 'Jordan' ? -1 : 1);
+    this.orderList.cd.detectChanges();
+  }
+
+  emptyNamesFirst(){
+    this.topItemList.sort((a, b) => _.isEmpty(a.nameShop) ? -1 : 1);
     this.orderList.cd.detectChanges();
   }
 

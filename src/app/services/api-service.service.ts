@@ -6,6 +6,9 @@ import { ItemRequest } from '../models/itemRequest.model';
 })
 export class ApiServiceService {
 
+  private readonly PL_URL_NUMBER = '45';
+  private readonly DE_URL_NUMBER = '17';
+
   private serverAddress: (tenant: string) => string = (t) => `https://www.zalando-lounge.${t}`;
 
   getServerAddress(): string {
@@ -25,7 +28,7 @@ export class ApiServiceService {
   }
 
   getItemDetailsAddress(item: ItemRequest): string {
-    return `${this.getServerAddress()}${item.urlPath['45']}`;
+    return `${this.getServerAddress()}${item.urlPath[this.PL_URL_NUMBER] ? item.urlPath[this.PL_URL_NUMBER] : item.urlPath[this.DE_URL_NUMBER]}`;
   }
 
   getTenant(): string {
