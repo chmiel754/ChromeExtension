@@ -10,18 +10,21 @@ export class Sniper {
 
   private subscription: Subscription;
 
+  interval: number = 1000;
+
   constructor(private delay: number = 2000,
               private action: () => void) {
+    this.interval = delay
   }
 
   start() {
     this.status = SniperStatus.WORKING;
-    this.subscription = interval(this.delay).subscribe(() => this.action());
+    this.subscription = interval(this.interval).subscribe(() => this.action());
 
   }
 
   stop() {
     this.status = SniperStatus.STOPPED;
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }

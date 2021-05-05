@@ -1,37 +1,51 @@
-<div class="product-item">
-  <div class="image-container">
-    <img [src]="getItemPhoto(sniper.item)" style="display:inline-block;margin:2px 0 2px 2px" width="90" alt="">
+<div class="p-grid">
+  <div class="p-col-1">
+    <div class="product-item image-container">
+      <img [src]="getItemPhoto(item)" style="display:inline-block;margin:2px 0 2px 2px" alt="">
+    </div>
   </div>
-  <div class="product-list-detail">
-    <h5 class="p-mb-2">{{sniper.item.brand}} - {{sniper.item.nameShop}} - {{sniper.item.sku}}</h5>
-    <i class="pi pi-tag product-category-icon"></i>
-    <span class="product-category">{{sniper.item.nameCategoryTag}}</span>
-  </div>
-  <div class="product-list-action">
-    <span class="p-buttonset">
-      {{sniper.status}}
-        <button pButton pRipple label="Start"
-                (click) = sniper.start()
-                icon="pi pi-check"></button>
-        <button pButton pRipple label="Stop"
-                (click) = sniper.stop()
-                icon="pi pi-times"></button>
-        <button pButton pRipple label="Usuń"
-                (click) = sniperItemListService.deleteItem(sniper.item)
-                icon="pi pi-trash"></button>
-    </span>
-    <h5>
-      Special price - {{sniper.item.specialPrice / 100}}
-    </h5>
-    {{wantedItemList.size}}
-<!--    <h7>Regular price - {{sniper.item.price / 100}}, savings - {{sniper.item.savings}}</h7>-->
-    <span>
-          <ng-container *ngFor="let simple of sniper.item.simples">
-            <button pButton pRipple
-                    [class]="getSimpleClass(simple)"
-                    (click)="insertIntoWantedList(simple)"
-                    [label]="simple.filterValue"></button>
+  <div class="p-col-11">
+    <div class="p-grid">
+      <div class="p-col-6">
+        <div class="product-list-detail">
+          <h5 class="p-mb-2">{{item.brand}} - {{item.nameShop}} - {{item.sku}}</h5>
+          <i class="pi pi-tag product-category-icon"></i>
+          <span class="product-category">{{item.nameCategoryTag}}</span>
+        </div>
+      </div>
+      <div class="p-col-2">
+        <div class="p-col-12 p-md-8">
+          <div class="p-inputgroup">
+            <input type="text" [(ngModel)]="delay" class="p-inputtext-xl" style="width: 100%" placeholder="Item tag"/>
+            <button type="button" (click)="sniper.interval = delay" pButton pRipple icon="pi pi-check" styleClass="p-button-success"></button>
+          </div>
+        </div>
+
+        {{sniper.status}}
+      </div>
+      <div class="p-col-4">
+            <span class="p-buttonset" style="float: right;">
+
+              <button pButton pRipple label="Start"
+                      (click)=sniper.start()
+                      icon="pi pi-check"></button>
+                <button pButton pRipple label="Stop"
+                        (click)=sniper.stop()
+                        icon="pi pi-times"></button>
+                <button pButton pRipple label="Usuń"
+                        (click)="sniper.stop(); sniperItemListService.deleteItem(item);"
+                        icon="pi pi-trash"></button>
+            </span>
+      </div>
+
+      <span>
+          <ng-container *ngFor="let simple of item.simples">
+             <button pButton pRipple
+                     [class]="getSimpleClass(simple)"
+                     (click)="handleWatchedList(simple)"
+                     [label]="simple.filterValue"></button>
           </ng-container>
-        </span>
+      </span>
+    </div>
   </div>
 </div>

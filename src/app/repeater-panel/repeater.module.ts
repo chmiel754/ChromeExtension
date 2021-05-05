@@ -5,6 +5,8 @@ import { CardModule } from 'primeng/card';
 import { RepeaterItemComponent } from './repeater-item/repeater-item.component';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
+import { FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 
@@ -18,6 +20,8 @@ import { RippleModule } from 'primeng/ripple';
     CardModule,
     ButtonModule,
     RippleModule,
+    FormsModule,
+    InputTextModule,
   ],
 })
 export class RepeaterModule { }

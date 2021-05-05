@@ -1,6 +1,6 @@
 import { ItemRequest } from '../models/itemRequest.model';
 
-export const sneakersyMock: ItemRequest[] = [
+export const sneakersyMock: any[] = [
   {
     attributes: {
       is_wearable: true
