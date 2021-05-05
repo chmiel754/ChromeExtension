@@ -1,0 +1,51 @@
+<div class="p-grid">
+  <div class="p-col-8">
+    <input type="text" [(ngModel)]="itemKey" class="p-inputtext-xl" style="width: 100%" placeholder="Item tag"
+           pInputText/>
+  </div>
+  <div class="p-col-1">
+    <button pButton pRipple label="Init" (click)="initItemData()"></button>
+  </div>
+  <div class="p-col-3">
+      <span class="p-buttonset">
+        <button pButton pRipple label="Start"
+                style="width: 33%"
+                (click)="sniper.start()"
+                icon="pi pi-check"></button>
+        <button pButton pRipple label="Stop"
+                style="width: 33%"
+                (click)="sniper.stop()"
+                icon="pi pi-times"></button>
+        <button pButton pRipple label="Usuń"
+                style="width: 33%"
+                (click)="chromeExtensionsService.openNewTab(zalandoApiService.getOrderListAddress())"
+                icon="pi pi-trash"></button>
+      </span>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-2">
+    {{sniper.status}}
+  </div>
+  <div class="p-col-10">
+<!--    <span>-->
+<!--      <ng-container *ngFor="let simple of simplesList.keys()">-->
+<!--        <button pButton pRipple-->
+<!--                [class]="getSimpleClass(simple)"-->
+<!--                (click)="handleWatchedList(simple)"-->
+<!--                [label]="simple"></button>-->
+<!--        </ng-container>-->
+<!--    </span>-->
+
+    <span>
+      <ng-container *ngFor="let simple of simplesList2">
+        <button pButton pRipple
+                [class]="getSimpleClass(simple)"
+                (click)="handleWatchedList(simple)"
+                [label]="simple.size"></button>
+        </ng-container>
+    </span>
+  </div>
+</div>
+
+

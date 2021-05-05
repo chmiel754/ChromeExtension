@@ -12,9 +12,17 @@ import { DialogModule } from 'primeng/dialog';
 import { ShoppingPanelModule } from './shopping-panel/shopping-panel.module';
 import { TopItemsPanelModule } from './top-items-panel/top-items-panel.module';
 import { RepeaterModule } from './repeater-panel/repeater.module';
+import { ZalandCheckoutPanelComponent } from './zaland-checkout-panel/zaland-checkout-panel.component';
+import { ZalandoItemComponent } from './zaland-checkout-panel/zalando-item/zalando-item.component';
+import { FormsModule } from '@angular/forms';
+import { RippleModule } from 'primeng/ripple';
+import { InputTextModule } from 'primeng/inputtext';
+import { CardModule } from 'primeng/card';
 @NgModule({
   declarations: [
     AppComponent,
+    ZalandCheckoutPanelComponent,
+    ZalandoItemComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +36,10 @@ import { RepeaterModule } from './repeater-panel/repeater.module';
     ShoppingPanelModule,
     TopItemsPanelModule,
     RepeaterModule,
+    FormsModule,
+    RippleModule,
+    InputTextModule,
+    CardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

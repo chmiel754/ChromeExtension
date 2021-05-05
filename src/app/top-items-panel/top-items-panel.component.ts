@@ -16,7 +16,7 @@ import { Item } from '../models/item.model';
 import { AlertService } from '../services/alert.service';
 import { SniperItemListService } from '../repeater-panel/sniper-item-list.service';
 import { ModelParser } from '../services/model-parser';
-import { ApiServiceService } from '../services/api-service.service';
+import { ZalandoLoungeApiService } from '../services/zalando-lounge-api.service';
 import * as _ from 'lodash';
 
 @Component({
@@ -36,7 +36,7 @@ export class TopItemsPanelComponent implements OnInit {
   constructor(private shoppingService: ShoppingService,
               private alertService: AlertService,
               private messageService: MessageService,
-              private apiServiceService: ApiServiceService,
+              private apiServiceService: ZalandoLoungeApiService,
               public sniperItemListService: SniperItemListService,
               public chromeExtensionsService: ChromeExtensionsService) {
 

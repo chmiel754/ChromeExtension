@@ -4,7 +4,7 @@ import { ItemRequest } from '../models/itemRequest.model';
 @Injectable({
   providedIn: 'root',
 })
-export class ApiServiceService {
+export class ZalandoLoungeApiService {
 
   private readonly PL_URL_NUMBER = '45';
   private readonly DE_URL_NUMBER = '17';

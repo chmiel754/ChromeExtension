@@ -13,7 +13,7 @@ import { FilterService } from './filter.service';
 import * as _ from 'lodash';
 import { itemDetails } from '../mock/itemDetailsMock';
 import { ModelParser } from './model-parser';
-import { ApiServiceService } from './api-service.service';
+import { ZalandoLoungeApiService } from './zalando-lounge-api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,7 @@ export class ShoppingService {
   private boughtItemsAmount: number;
 
   constructor(private http: HttpClient,
-              private apiServiceService: ApiServiceService,
+              private apiServiceService: ZalandoLoungeApiService,
               private filterService: FilterService,
               private chromeExtensionsService: ChromeExtensionsService) {
 

@@ -10,6 +10,13 @@ export class ChromeExtensionsService {
   constructor() {
   }
 
+  openNewTab(url: string) {
+    // tslint:disable-next-line:only-arrow-functions
+    chrome.tabs.create({url}, function(tab) {
+      // Tab opened.
+    });
+  }
+
   log(value: string, extraItem: any = '') {
     // chrome.extension.getBackgroundPage().console.log(value, extraItem);
     console.log(value, extraItem);
