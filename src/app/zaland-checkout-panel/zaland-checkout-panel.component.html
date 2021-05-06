@@ -1,3 +1,9 @@
-<p-card>
-  <app-zalando-item></app-zalando-item>
-</p-card>
+<ng-container *ngFor="let item of wachersList">
+  <p-card>
+    <app-zalando-item></app-zalando-item>
+  </p-card>
+</ng-container>
+<button pButton pRipple label="Add"
+        style="width: 33%"
+        (click)="wachersList.push(1)"
+        icon="pi pi-times"></button>

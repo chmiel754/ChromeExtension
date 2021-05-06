@@ -12,6 +12,8 @@ import { zalandoHtmlMock } from '../mock/zalando-item.mock';
 })
 export class ZalandoScraperService {
 
+  public audio: HTMLAudioElement = new Audio('https://www.freesoundslibrary.com/wp-content/uploads/2018/02/ding-dong-sound-effect.mp3');
+
   private readonly userId: string = 'e7f9dfd05f6b992d05ec8d79803ce6a6bcfb0a10972d4d9731c6b94f6ec75033';
 
   public status: SniperStatus = SniperStatus.STOPPED;
@@ -22,6 +24,7 @@ export class ZalandoScraperService {
   constructor(private zalandoApiService: ZalandoApiService,
               public chromeExtensionsService: ChromeExtensionsService,
               private http: HttpClient) {
+    this.audio.load();
   }
 
   getItemPageData(key: string) {
@@ -54,9 +57,13 @@ export class ZalandoScraperService {
 
   getIntoOrderList(itemList: ZalandoItemSimple[]): Promise<any> {
     const list: ZalandoItemOrderMutation[] = itemList.map(el => this.getOrderItem(el.sku));
-    return list.length ? this.http.post(this.zalandoApiService.getZalandoGqlAddress(), list).toPromise()
-        .then(() => this.chromeExtensionsService.openNewTab(this.zalandoApiService.getOrderListAddress()))
-      : Promise.reject();
+    return list.length ? this.orderItems(list) : Promise.reject();
+  }
+
+  private orderItems(list: ZalandoItemOrderMutation[]): Promise<any> {
+    return this.http.post(this.zalandoApiService.getZalandoGqlAddress(), list).toPromise()
+      .then(() => this.chromeExtensionsService.openNewTab(this.zalandoApiService.getOrderListAddress()))
+      .then(() => this.audio.play());
   }
 
   getOrderItem(sku: string): ZalandoItemOrderMutation {

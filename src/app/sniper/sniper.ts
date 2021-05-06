@@ -14,7 +14,7 @@ export class Sniper {
 
   constructor(private delay: number = 2000,
               private action: () => void) {
-    this.interval = delay
+    this.interval = delay;
   }
 
   start() {
@@ -27,4 +27,5 @@ export class Sniper {
     this.status = SniperStatus.STOPPED;
     this.subscription?.unsubscribe();
   }
+
 }
