@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 import { itemDetails } from '../mock/itemDetailsMock';
 import { ModelParser } from './model-parser';
 import { ZalandoLoungeApiService } from './zalando-lounge-api.service';
+import { sneakersyMock } from '../mock/sneakersy';
 
 @Injectable({
   providedIn: 'root',

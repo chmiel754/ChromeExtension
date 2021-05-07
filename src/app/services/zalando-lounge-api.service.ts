@@ -31,6 +31,10 @@ export class ZalandoLoungeApiService {
     return `${this.getServerAddress()}${item.urlPath[this.PL_URL_NUMBER] ? item.urlPath[this.PL_URL_NUMBER] : item.urlPath[this.DE_URL_NUMBER]}`;
   }
 
+  getPhotoThumb(item: ItemRequest): string {
+    return `https://mosaic03.ztat.net/vgs/media/zlcatalog/${item.media[0].path}`;
+  }
+
   getTenant(): string {
     return JSON.parse(localStorage.getItem('manSettings'))?.tenant || 'pl';
   }

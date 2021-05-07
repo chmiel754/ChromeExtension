@@ -4,31 +4,32 @@
               (click)="initItemList(false)"></button>
       <button pButton pRipple
               [label]="'Jordan first'"
-              (click)="sortJordanFirst()"></button>
+              (click)="itemList.sortByBrand('Jordan'); orderList.cd.detectChanges()"></button>
       <button pButton pRipple
               [label]="'Empty first'"
-              (click)="emptyNamesFirst()"></button>
+              (click)="itemList.sortEmptyModelsFirst(); orderList.cd.detectChanges()"></button>
       <button pButton pRipple
               [label]="'Pobierz z filtrami'"
-              (click)="initItemList(true)"></button>
+              (click)="initItemList(true); orderList.cd.detectChanges()"></button>
       <button pButton pRipple
               [label]="'Sortuj wg ceny'"
-              (click)="sortByPrice()"></button>
+              (click)="itemList.sortByPrice(); orderList.cd.detectChanges()"></button>
       <button pButton pRipple
               [label]="'Sortuj wg zniżki'"
-              (click)="sortByDiscount()"></button>
+              (click)="itemList.sortByDiscount(); orderList.cd.detectChanges()"></button>
 </span>
 <br/>
 <br/>
 <p-orderList
   #orderList
   [filterBy]="'nameShop'"
-  [value]="topItemList"
+  [value]="itemList.getItemList()"
   [listStyle]="{'height':'auto'}">
   <ng-template let-item pTemplate="item">
     <div class="product-item">
       <div class="image-container">
-        <img [src]="getItemPhoto(item)" style="display:inline-block;margin:2px 0 2px 2px" width="90" alt="">
+        <img [src]="apiServiceService.getPhotoThumb(item)" style="display:inline-block;margin:2px 0 2px 2px" width="90"
+             alt="">
       </div>
       <div class="product-list-detail">
         <h5 class="p-mb-2">{{item.brand}} - {{item.nameShop}}</h5>
@@ -60,5 +61,11 @@
     </div>
   </ng-template>
 </p-orderList>
+
+<ng-container *ngFor="let key of itemCategoriesMap.getCategories()">
+  <button pButton pRipple
+          [label]="key + ' - ' + itemCategoriesMap.getCategoriesItemsAmount(key)"
+          (click)="itemList.sortByCategory(key); orderList.cd.detectChanges()"></button>
+</ng-container>
 
 <p-toast></p-toast>

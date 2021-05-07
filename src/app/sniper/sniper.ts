@@ -18,9 +18,10 @@ export class Sniper {
   }
 
   start() {
-    this.status = SniperStatus.WORKING;
-    this.subscription = interval(this.interval).subscribe(() => this.action());
-
+    if (this.status !== SniperStatus.WORKING) {
+      this.subscription = interval(this.interval).subscribe(() => this.action());
+      this.status = SniperStatus.WORKING;
+    }
   }
 
   stop() {

@@ -18,6 +18,8 @@ import { SniperItemListService } from '../repeater-panel/sniper-item-list.servic
 import { ModelParser } from '../services/model-parser';
 import { ZalandoLoungeApiService } from '../services/zalando-lounge-api.service';
 import * as _ from 'lodash';
+import { ZalandoItemList } from './item-list/zalando-item-list';
+import { ZalandoItemCategoriesMap } from './item-list/zalando-item-categories-map';
 
 @Component({
   selector: 'app-top-items-panel',
@@ -29,18 +31,24 @@ export class TopItemsPanelComponent implements OnInit {
   @ViewChild('orderList')
   orderList: OrderList;
 
+  categoriesList: string[] = [];
+
   stockStatus = StockStatus;
 
   topItemList: ItemRequest[] = [];
 
+  itemList: ZalandoItemList = new ZalandoItemList();
+
+  itemCategoriesMap: ZalandoItemCategoriesMap = new ZalandoItemCategoriesMap();
+
   constructor(private shoppingService: ShoppingService,
               private alertService: AlertService,
               private messageService: MessageService,
-              private apiServiceService: ZalandoLoungeApiService,
+              public apiServiceService: ZalandoLoungeApiService,
               public sniperItemListService: SniperItemListService,
               public chromeExtensionsService: ChromeExtensionsService) {
 
-    this.topItemList = JSON.parse(localStorage.getItem('topItemList')) || [];
+    this.itemList.setItemList(JSON.parse(localStorage.getItem('topItemList')));
   }
 
   ngOnInit() {
@@ -50,15 +58,14 @@ export class TopItemsPanelComponent implements OnInit {
     this.topItemList = [];
     this.alertService.clearValues();
     this.shoppingService.getTopItems(useFilters)
-      .then((list) => this.topItemList.push(...list))
-      .then(() => localStorage.setItem('topItemList', JSON.stringify(this.topItemList)))
-      .then(() => this.sortByPrice());
-      // .then(() => console.log(this.alertService.allAlerts));
-  }
-
-  getItemPhoto(item: ItemRequest): string {
-    return `https://mosaic03.ztat.net/vgs/media/zlcatalog/${item.media[0].path}`;
-  }
+      .then((list) => {
+        this.itemList.setItemList(list);
+        this.itemCategoriesMap.check(list);
+        console.log(this.itemCategoriesMap.getCategories());
+      })
+      .then(() => localStorage.setItem('topItemList', JSON.stringify(this.itemList.getItemList())))
+      .then(() => this.itemList.sortByPrice());
+      }
 
   getSimpleClass(status: StockStatus): string {
     switch (status) {
@@ -82,26 +89,6 @@ export class TopItemsPanelComponent implements OnInit {
       });
   }
 
-  sortByDiscount() {
-    this.topItemList.sort((a, b) => a.savings > b.savings ? -1 : 1);
-    this.orderList.cd.detectChanges();
-  }
-
-  sortByPrice() {
-    this.topItemList.sort((a, b) => a.specialPrice < b.specialPrice ? -1 : 1);
-    this.orderList.cd.detectChanges();
-  }
-
-  sortJordanFirst() {
-    this.topItemList.sort((a, b) => a.brand === 'Jordan' ? -1 : 1);
-    this.orderList.cd.detectChanges();
-  }
-
-  emptyNamesFirst(){
-    this.topItemList.sort((a, b) => _.isEmpty(a.nameShop) ? -1 : 1);
-    this.orderList.cd.detectChanges();
-  }
-
   goToItem(item: ItemRequest) {
     this.chromeExtensionsService.copyText(this.apiServiceService.getItemDetailsAddress(item));
     this.chromeExtensionsService.log(`Url = ${this.apiServiceService.getItemDetailsAddress(item)}`);
@@ -109,7 +96,6 @@ export class TopItemsPanelComponent implements OnInit {
 
   setJordanButtonClass(alert: boolean): string {
     if (alert) {
-      console.log('alert');
       return 'p-button-warning';
     } else {
       return '';

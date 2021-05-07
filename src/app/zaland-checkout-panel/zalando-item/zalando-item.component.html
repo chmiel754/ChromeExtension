@@ -16,9 +16,9 @@
                 style="width: 33%"
                 (click)="sniper.stop()"
                 icon="pi pi-times"></button>
-        <button pButton pRipple label="Usuń"
+        <button pButton pRipple label="Otwórz"
                 style="width: 33%"
-                (click)="chromeExtensionsService.openNewTab(zalandoApiService.getOrderListAddress())"
+                (click)="chromeExtensionsService.openNewTab(zalandoApiService.getItemDetails(itemKey))"
                 icon="pi pi-trash"></button>
       </span>
   </div>
